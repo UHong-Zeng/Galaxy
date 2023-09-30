@@ -1,7 +1,4 @@
-import ThreadCard from "@/components/cards/ThreadCard";
 import UserCard from "@/components/cards/UserCard";
-import Comment from "@/components/forms/Comment";
-import { fetchThreadById } from "@/lib/actions/thread.actions";
 import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
