@@ -181,3 +181,47 @@ export async function getActivity(userId: string) {
     throw error;
   }
 }
+
+export async function isLikePost(userId: string, postId: string) {
+  try {
+    const user = await User.findOne({ id: userId });
+
+    if (user.likes.includes(postId)) return true;
+    else return false;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+}
+
+export async function toggleLike(userId: string, postId: string, isLike: boolean) {
+  try {
+    let currentLike = isLike;
+    const user = await User.findOne({ id: userId });
+
+    if (currentLike) {
+      await User.findOneAndUpdate(
+        {id: userId},
+        {$pull: {likes: postId}}
+      )
+      await Thread.findByIdAndUpdate(
+        postId,
+        {$pull: {likedBy: user._id}}
+      )
+      currentLike = false;
+    } else {
+      await User.findOneAndUpdate(
+        {id: userId},
+        {$push: {likes: postId}}
+      )
+      await Thread.findByIdAndUpdate(
+        postId,
+        {$push: {likedBy: user._id}}
+      )
+      currentLike = true;
+    }
+
+    return currentLike;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+}
