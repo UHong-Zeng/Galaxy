@@ -225,3 +225,15 @@ export async function toggleLike(userId: string, postId: string, isLike: boolean
     throw new Error(error.message);
   }
 }
+
+export async function changeOnboarded(userId: string) {
+  connectToDB();
+  try {
+    await User.findOneAndUpdate(
+      {id: userId},
+      {$set: {onboarded: false}}
+    )
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+}

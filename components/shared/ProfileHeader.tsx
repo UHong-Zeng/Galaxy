@@ -1,4 +1,5 @@
 import Image from "next/image";
+import EditProfile from "../buttons/EditProfile";
 
 interface Props {
   accountId: string;
@@ -37,6 +38,9 @@ const ProfileHeader = ({
               {name}
             </h2>
             <p className="text-base-medium text-gray-1">@{username}</p>
+          </div>
+          <div className="">
+            <EditProfile userId={accountId} />
           </div>
         </div>
       </div>
