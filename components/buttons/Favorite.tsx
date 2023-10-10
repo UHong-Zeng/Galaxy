@@ -11,8 +11,10 @@ const Favorite = ({ userId, postId }: { userId: string; postId: string }) => {
     async function fetchIsLike() {
       try {
         const result = await isLikePost(userId, postId);
+        if(result == null) setIsLike(false)
+        else setIsLike(result);
         // console.log("result: ", result);
-        setIsLike(result);
+        
       } catch (error: any) {
         throw new Error(error.message);
       }
@@ -21,7 +23,7 @@ const Favorite = ({ userId, postId }: { userId: string; postId: string }) => {
   }, []);
   
   const handleClick = async () => {
-    let currentLike = await toggleLike(userId, postId, isLike);
+    let currentLike = await toggleLike(userId, postId, Boolean(isLike));
     setIsLike(currentLike);
     // console.log(isLike);
   };
