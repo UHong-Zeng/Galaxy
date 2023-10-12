@@ -30,6 +30,12 @@ const nextConfig = {
         protocol: "https",
         hostname: "placehold.co",
       },
+      {
+        protocol: 'https',
+        hostname: 'utfs.io',
+        port: '',
+        pathname: '/f/**', // 根據你的需求設置適當的路徑
+      },
     ],
   },
 };
