@@ -16,6 +16,7 @@ const page = async ({ params }: { params: { id: string } }) => {
 
   const thread = await fetchThreadById(params.id);
 
+  // console.log(thread.children[0].likedBy)
   return (
     <section>
       <div>
@@ -29,6 +30,7 @@ const page = async ({ params }: { params: { id: string } }) => {
           community={thread.community}
           createdAt={thread.createdAt}
           comments={thread.children}
+          likes={thread.likedBy}
         />
       </div>
 
@@ -52,6 +54,7 @@ const page = async ({ params }: { params: { id: string } }) => {
           community={childItem.community}
           createdAt={childItem.createdAt}
           comments={childItem.children}
+          likes={childItem.likedBy}
           isComment
         />
         ))}

@@ -34,6 +34,11 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
         model: User,
         select: "_id name parentId image", // Select only _id and username fields of the author
       },
+    })
+    .populate({
+      path: "likedBy", // Populate the children field
+      model: User,
+      select: "_id id name image"
     });
 
   // Count the total number of top-level posts (threads) i.e., threads that are not comments.
@@ -189,7 +194,17 @@ export async function fetchThreadById(threadId: string) {
               select: "_id id name parentId image", // Select only _id and username fields of the author
             },
           },
+          {
+            path: "likedBy",
+            model: User,
+            select: "_id id name image"
+          }
         ],
+      })
+      .populate({
+        path:"likedBy",
+        model: User,
+        select: "_id id name image"
       })
       .exec();
 
