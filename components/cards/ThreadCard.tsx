@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { formatDateString } from "@/lib/utils";
 import Favorite from "../buttons/Favorite";
+import React from "react";
 // import DeleteThread from "../forms/DeleteThread";
 
 interface Props {
@@ -69,10 +70,20 @@ function ThreadCard({
                   {author.name}
                 </h4>
               </Link>
-              <p className="text-light-3 text-small-regular">{formatDateString(createdAt)}</p>
+              <p className="text-light-3 text-small-regular">
+                {formatDateString(createdAt)}
+              </p>
             </div>
 
-            <p className="mt-2 text-small-regular text-light-2">{content}</p>
+            {/* Generate from Poe for auto line wrapping*/}
+            <p className="mt-2 text-small-regular text-light-2">
+              {content.split("\n").map((line, index) => (
+                <React.Fragment key={index}>
+                  {line}
+                  <br />
+                </React.Fragment>
+              ))}
+            </p>
 
             <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
               <div className="flex gap-3.5">

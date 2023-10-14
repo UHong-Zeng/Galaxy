@@ -19,7 +19,7 @@ const page = async () => {
 
   return (
     <section>
-      <h1 className="head-text">Search</h1>
+      <h1 className="head-text">Community</h1>
 
       {/* Search Bar */}
 
