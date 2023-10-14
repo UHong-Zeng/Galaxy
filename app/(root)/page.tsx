@@ -6,7 +6,7 @@ export default async function Home() {
   const result = await fetchPosts(1, 30);
   const user = await currentUser();
 
-  console.log(result.posts[1].likedBy[0].image);
+  // console.log(result.posts[1].likedBy);
   return (
     <>
       <h1 className="head-text">Home</h1>
