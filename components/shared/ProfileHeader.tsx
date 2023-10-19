@@ -8,7 +8,7 @@ interface Props {
   username: string;
   imgUrl: string;
   bio: string;
-  type?: 'User' | 'Community'
+  type?: "User" | "Community";
 }
 
 const ProfileHeader = ({
@@ -39,8 +39,10 @@ const ProfileHeader = ({
             </h2>
             <p className="text-base-medium text-gray-1">@{username}</p>
           </div>
-          <div className="">
+          <div>
+            {accountId === authUserId && (
             <EditProfile userId={accountId} />
+            )}
           </div>
         </div>
       </div>
