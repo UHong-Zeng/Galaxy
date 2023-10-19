@@ -1,3 +1,5 @@
+import MapExperiment from "@/components/interact/MapExperiment";
+import MapWindow from "@/components/interact/MapWindow";
 import ProfileHeader from "@/components/shared/ProfileHeader";
 import ThreadsTab from "@/components/shared/ThreadsTab";
 import { Tabs, TabsList, TabsContent, TabsTrigger } from "@/components/ui/tabs";
@@ -70,8 +72,9 @@ async function Page({ params }: { params: { id: string } }) {
                 </div>
               )}
               {tab.value === "tagged" && (
-                <div className="text-light-1">
-                  Tagged
+                <div>
+                  <MapWindow />
+                  
                 </div>
               )}
             </TabsContent>
