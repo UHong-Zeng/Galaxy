@@ -4,6 +4,7 @@ import Link from "next/link";
 import { formatDateString } from "@/lib/utils";
 import Favorite from "../buttons/Favorite";
 import React from "react";
+import DeleteThread from "../forms/DeleteThread";
 // import DeleteThread from "../forms/DeleteThread";
 
 interface Props {
@@ -117,24 +118,24 @@ function ThreadCard({
                 />
               </div>
 
-              {/* {isComment && comments.length > 0 && (
+              {isComment && comments.length > 0 && (
                 <Link href={`/thread/${id}`}>
                   <p className='mt-1 text-subtle-medium text-gray-1'>
                     {comments.length} repl{comments.length > 1 ? "ies" : "y"}
                   </p>
                 </Link>
-              )} */}
+              )}
             </div>
           </div>
         </div>
 
-        {/* <DeleteThread
+        <DeleteThread
           threadId={JSON.stringify(id)}
           currentUserId={currentUserId}
           authorId={author.id}
           parentId={parentId}
           isComment={isComment}
-        /> */}
+        />
       </div>
       <div className="flex flex-row">
       {likes.length > 0 && (

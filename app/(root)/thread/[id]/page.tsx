@@ -15,6 +15,7 @@ const page = async ({ params }: { params: { id: string } }) => {
   if(!userInfo?.onboarded) redirect('/onboarding')
 
   const thread = await fetchThreadById(params.id);
+  if(!thread) return null;
 
   // console.log(thread.children[0].likedBy)
   return (
