@@ -71,9 +71,9 @@ async function Page({ params }: { params: { id: string } }) {
                   Reply
                 </div>
               )}
-              {tab.value === "tagged" && (
+              {tab.value === "map" && (
                 <div>
-                  <MapWindow />
+                  <MapWindow name={userInfo.name} username={userInfo.username}/>
                   
                 </div>
               )}
