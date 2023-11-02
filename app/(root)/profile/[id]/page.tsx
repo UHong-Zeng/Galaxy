@@ -1,3 +1,4 @@
+import UpdateUserPosition from "@/components/forms/UpdateUserPosition";
 import MapExperiment from "@/components/interact/MapExperiment";
 import MapWindow from "@/components/interact/MapWindow";
 import ProfileHeader from "@/components/shared/ProfileHeader";
@@ -73,8 +74,8 @@ async function Page({ params }: { params: { id: string } }) {
               )}
               {tab.value === "map" && (
                 <div>
-                  <MapWindow name={userInfo.name} username={userInfo.username}/>
-                  
+                  <MapWindow userId={userInfo.id} name={userInfo.name} username={userInfo.username}/>
+                  <UpdateUserPosition userId={userInfo.id}/>
                 </div>
               )}
             </TabsContent>

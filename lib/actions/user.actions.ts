@@ -88,8 +88,8 @@ export async function fetchUserPosts(userId: string) {
         {
           path: "likedBy",
           model: User,
-          select: "_id id name image"
-        }
+          select: "_id id name image",
+        },
       ],
     });
     return threads;
@@ -198,30 +198,22 @@ export async function isLikePost(userId: string, postId: string) {
   }
 }
 
-export async function toggleLike(userId: string, postId: string, isLike: boolean) {
+export async function toggleLike(
+  userId: string,
+  postId: string,
+  isLike: boolean
+) {
   try {
     let currentLike = isLike;
     const user = await User.findOne({ id: userId });
 
     if (currentLike) {
-      await User.findOneAndUpdate(
-        {id: userId},
-        {$pull: {likes: postId}}
-      )
-      await Thread.findByIdAndUpdate(
-        postId,
-        {$pull: {likedBy: user._id}}
-      )
+      await User.findOneAndUpdate({ id: userId }, { $pull: { likes: postId } });
+      await Thread.findByIdAndUpdate(postId, { $pull: { likedBy: user._id } });
       currentLike = false;
     } else {
-      await User.findOneAndUpdate(
-        {id: userId},
-        {$push: {likes: postId}}
-      )
-      await Thread.findByIdAndUpdate(
-        postId,
-        {$push: {likedBy: user._id}}
-      )
+      await User.findOneAndUpdate({ id: userId }, { $push: { likes: postId } });
+      await Thread.findByIdAndUpdate(postId, { $push: { likedBy: user._id } });
       currentLike = true;
     }
 
@@ -234,10 +226,29 @@ export async function toggleLike(userId: string, postId: string, isLike: boolean
 export async function changeOnboarded(userId: string) {
   connectToDB();
   try {
+    await User.findOneAndUpdate({ id: userId }, { $set: { onboarded: false } });
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+}
+
+export async function updatePosition(
+  userId: string,
+  position: { lat: number; lng: number }
+) {
+  connectToDB();
+  try {
     await User.findOneAndUpdate(
-      {id: userId},
-      {$set: {onboarded: false}}
+      { id: userId },
+      { $set: { "location.coordinates": [position.lng, position.lat] } },
+      { new: true }
     )
+      // .then((updatedLocation: any) => {
+      //   console.log("更新成功：", updatedLocation);
+      // })
+      // .catch((error: any) => {
+      //   console.error("更新失败：", error);
+      // });
   } catch (error: any) {
     throw new Error(error.message);
   }
