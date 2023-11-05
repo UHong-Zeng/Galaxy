@@ -1,4 +1,4 @@
-import { OrganizationSwitcher, SignOutButton, SignedIn } from "@clerk/nextjs";
+import { OrganizationSwitcher, SignOutButton, SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { dark } from "@clerk/themes"
@@ -27,7 +27,8 @@ const Topbar = () => {
             </SignOutButton>
           </SignedIn>
         </div>
-
+        
+        <UserButton />
         <OrganizationSwitcher
           appearance={{
             baseTheme: dark,
