@@ -313,3 +313,19 @@ export async function deleteLicense(userId: string, id: string) {
     throw new Error(error.message);
   }
 }
+
+export async function fetchUsersPosition(
+  userId?: string,
+) {
+  connectToDB();
+  try {
+    return await User.find(
+      {
+        location: {$ne: [null,undefined]},
+      }
+    )
+    .populate("location");
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+}
