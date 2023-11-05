@@ -13,6 +13,7 @@ import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 import L, { LatLng } from "leaflet";
 import UpdateUserPosition from "../forms/UpdateUserPosition";
+import { fetchUsersPosition } from "@/lib/actions/user.actions";
 
 interface MapWindowProps {
   userId: string;
@@ -21,7 +22,6 @@ interface MapWindowProps {
 }
 
 const center = [52.22977, 21.01178];
-
 
 function customMarkerIcon(color = "5C5C7B") {
   const svgTemplate = `
@@ -42,28 +42,54 @@ function customMarkerIcon(color = "5C5C7B") {
 const Location = ({ name, username }: MapWindowProps) => {
   const map = useMap();
   const [position, setPosition] = useState<LatLng | null>(null);
+  const [usersPosition, setUsersPosition] = useState([]);
 
   useEffect(() => {
+    const fetchUserInforms = async () => {
+      const information = await fetchUsersPosition();
+      setUsersPosition(() => {
+        const informs = information.map((user: any) => {
+          return {
+            location: {
+              lat: user.location.coordinates[1],
+              lng: user.location.coordinates[0],
+            },
+            name: user.name,
+            username: user.username,
+          };
+        });
+        console.log(informs);
+        return informs;
+      });
+    };
     map.locate({
       setView: true,
     });
     map.on("locationfound", (event) => {
       setPosition(event.latlng);
     });
+
+    fetchUserInforms();
   }, [map]);
 
   // console.log([position?.lng, position?.lat]);
-  
+  console.log(position);
+  // console.log(usersPosition);
+
   return position ? (
     <>
       {/* <Circle center={position} weight={2} color={'red'} fillColor={'red'} fillOpacity={0.1} radius={500}></Circle> */}
-      <Marker position={position} icon={customMarkerIcon()}>
-        <Popup>
-          Name:{name}
-          <br />
-          User:{username}
-        </Popup>
-      </Marker>
+      {usersPosition.map((user: any) => {
+        return (
+          <Marker position={user.location} icon={customMarkerIcon()} key={user.name}>
+            <Popup>
+              Name:{user.name}
+              <br />
+              User:{user.username}
+            </Popup>
+          </Marker>
+        );
+      })}
     </>
   ) : null;
 };

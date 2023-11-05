@@ -1,8 +1,7 @@
 "use client";
 import { useGeolocated } from "react-geolocated";
-import axios from "axios";
 import { useEffect } from "react";
-import { updatePosition } from "@/lib/actions/user.actions";
+import { fetchUsersPosition, updatePosition } from "@/lib/actions/user.actions";
 const UpdateUserPosition = ({ userId }: { userId: string }) => {
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
@@ -11,13 +10,15 @@ const UpdateUserPosition = ({ userId }: { userId: string }) => {
       },
       userDecisionTimeout: 5000,
     });
-  console.log(coords);
+  // console.log(coords);
   useEffect(() => {
     const update = async (
       userId: string,
       position: { lng: number; lat: number }
     ) => {
         await updatePosition(userId, position);
+        // const test = await fetchUsersPosition(userId);
+        // console.log("Test: ", test.map((user) => user.location.coordinates));
     };
     if (coords) {
       update(userId, { lng: coords.longitude, lat: coords.latitude });

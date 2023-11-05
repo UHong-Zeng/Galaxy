@@ -1,5 +1,4 @@
 import UpdateUserPosition from "@/components/forms/UpdateUserPosition";
-import MapExperiment from "@/components/interact/MapExperiment";
 import MapWindow from "@/components/interact/MapWindow";
 import ProfileHeader from "@/components/shared/ProfileHeader";
 import ThreadsTab from "@/components/shared/ThreadsTab";
