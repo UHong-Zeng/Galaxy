@@ -11,15 +11,15 @@ const UpdateUserPosition = ({ userId }: { userId: string }) => {
       userDecisionTimeout: 5000,
     });
   // console.log(coords);
+  const update = async (
+    userId: string,
+    position: { lng: number; lat: number }
+  ) => {
+    await updatePosition(userId, position);
+    // const test = await fetchUsersPosition(userId);
+    // console.log("Test: ", test.map((user) => user.location.coordinates));
+  };
   useEffect(() => {
-    const update = async (
-      userId: string,
-      position: { lng: number; lat: number }
-    ) => {
-        await updatePosition(userId, position);
-        // const test = await fetchUsersPosition(userId);
-        // console.log("Test: ", test.map((user) => user.location.coordinates));
-    };
     if (coords) {
       update(userId, { lng: coords.longitude, lat: coords.latitude });
     }

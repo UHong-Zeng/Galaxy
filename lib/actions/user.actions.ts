@@ -242,29 +242,25 @@ export async function updatePosition(
       { id: userId },
       { $set: { "location.coordinates": [position.lng, position.lat] } },
       { new: true }
-    )
-      // .then((updatedLocation: any) => {
-      //   console.log("更新成功：", updatedLocation);
-      // })
-      // .catch((error: any) => {
-      //   console.error("更新失败：", error);
-      // });
+    );
+    // .then((updatedLocation: any) => {
+    //   console.log("更新成功：", updatedLocation);
+    // })
+    // .catch((error: any) => {
+    //   console.error("更新失败：", error);
+    // });
   } catch (error: any) {
     throw new Error(error.message);
   }
 }
 
-export async function fetchUsersPosition(
-  userId?: string,
-) {
+export async function fetchUsersPosition(userId?: string) {
   connectToDB();
   try {
-    return await User.find(
-      {
-        location: {$ne: [null,undefined]},
-      }
-    )
-    .populate("location");
+    return await User.find({
+      location: { $ne: [null, undefined] },
+    })
+    .populate({ path: "location", select: "coordinates" });
   } catch (error: any) {
     throw new Error(error.message);
   }

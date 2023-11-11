@@ -10,7 +10,7 @@ import {
   useMap,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import L, { LatLng } from "leaflet";
 import UpdateUserPosition from "../forms/UpdateUserPosition";
 import { fetchUsersPosition } from "@/lib/actions/user.actions";
@@ -44,36 +44,36 @@ const Location = ({ name, username }: MapWindowProps) => {
   const [position, setPosition] = useState<LatLng | null>(null);
   const [usersPosition, setUsersPosition] = useState([]);
 
-  useEffect(() => {
-    const fetchUserInforms = async () => {
-      const information = await fetchUsersPosition();
-      setUsersPosition(() => {
-        const informs = information.map((user: any) => {
-          return {
-            location: {
-              lat: user.location.coordinates[1],
-              lng: user.location.coordinates[0],
-            },
-            name: user.name,
-            username: user.username,
-          };
-        });
-        console.log(informs);
-        return informs;
+  const fetchUserInforms = async () => {
+    const information = await fetchUsersPosition();
+    console.log(information);
+    setUsersPosition(() => {
+      const informs = information.map((user: any) => {
+        return {
+          location: {
+            lat: user.location.coordinates[1],
+            lng: user.location.coordinates[0],
+          },
+          name: user.name,
+          username: user.username,
+        };
       });
-    };
+      return informs;
+    });
+  };
+
+  useEffect(() => {
     map.locate({
       setView: true,
     });
-    map.on("locationfound", (event) => {
+    map.on("locationfound", async (event) => {
       setPosition(event.latlng);
+      await fetchUserInforms();
     });
-
-    fetchUserInforms();
   }, [map]);
 
   // console.log([position?.lng, position?.lat]);
-  console.log(position);
+  // console.log(position);
   // console.log(usersPosition);
 
   return position ? (
@@ -81,7 +81,11 @@ const Location = ({ name, username }: MapWindowProps) => {
       {/* <Circle center={position} weight={2} color={'red'} fillColor={'red'} fillOpacity={0.1} radius={500}></Circle> */}
       {usersPosition.map((user: any) => {
         return (
-          <Marker position={user.location} icon={customMarkerIcon()} key={user.name}>
+          <Marker
+            position={user.location}
+            icon={customMarkerIcon()}
+            key={user.name}
+          >
             <Popup>
               Name:{user.name}
               <br />
