@@ -243,18 +243,12 @@ export async function updatePosition(
       { $set: { "location.coordinates": [position.lng, position.lat] } },
       { new: true }
     );
-    // .then((updatedLocation: any) => {
-    //   console.log("更新成功：", updatedLocation);
-    // })
-    // .catch((error: any) => {
-    //   console.error("更新失败：", error);
-    // });
   } catch (error: any) {
     throw new Error(error.message);
   }
 }
 
-export async function fetchUsersPosition(userId?: string) {
+export async function fetchUsersPosition() {
   connectToDB();
   try {
     return await User.find({

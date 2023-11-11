@@ -13,7 +13,7 @@ import "leaflet/dist/leaflet.css";
 import { useEffect, useState, useCallback } from "react";
 import L, { LatLng } from "leaflet";
 import UpdateUserPosition from "../forms/UpdateUserPosition";
-import { fetchUsersPosition } from "@/lib/actions/user.actions";
+import { fetchUsersPosition, updatePosition } from "@/lib/actions/user.actions";
 
 interface MapWindowProps {
   userId: string;
@@ -39,52 +39,50 @@ function customMarkerIcon(color = "5C5C7B") {
   });
 }
 
-const Location = ({ name, username }: MapWindowProps) => {
+const Location = ({userId, name, username }: MapWindowProps) => {
   const map = useMap();
   const [position, setPosition] = useState<LatLng | null>(null);
-  const [usersPosition, setUsersPosition] = useState([]);
-
-  const fetchUserInforms = async () => {
-    const information = await fetchUsersPosition();
-    console.log(information);
-    setUsersPosition(() => {
-      const informs = information.map((user: any) => {
-        return {
-          location: {
-            lat: user.location.coordinates[1],
-            lng: user.location.coordinates[0],
-          },
-          name: user.name,
-          username: user.username,
-        };
-      });
-      return informs;
-    });
-  };
+  const [usersInform, setUsersInform] = useState([]);
 
   useEffect(() => {
     map.locate({
       setView: true,
     });
-    map.on("locationfound", async (event) => {
+    map.on("locationfound",async (event) => {
       setPosition(event.latlng);
-      await fetchUserInforms();
+      
+      const pos = {
+        lat: event.latlng.lat,
+        lng: event.latlng.lng,
+      }
+      await updatePosition(userId, pos);
+
+      const result = await fetchUsersPosition();
+      const arr = result.map((user: any) => {
+        const lat = user.location.coordinates[1];
+        const lng = user.location.coordinates[0];
+        const loc = new LatLng(lat, lng);
+        return {
+          "location": loc,
+          "name" : user.name,
+          "username" : user.username,
+        }
+      });
+
+      setUsersInform(arr);
     });
   }, [map]);
 
-  // console.log([position?.lng, position?.lat]);
-  // console.log(position);
-  // console.log(usersPosition);
 
   return position ? (
     <>
       {/* <Circle center={position} weight={2} color={'red'} fillColor={'red'} fillOpacity={0.1} radius={500}></Circle> */}
-      {usersPosition.map((user: any) => {
+      {usersInform.map((user: any) => {
         return (
           <Marker
             position={user.location}
             icon={customMarkerIcon()}
-            key={user.name}
+            key={user.username}
           >
             <Popup>
               Name:{user.name}

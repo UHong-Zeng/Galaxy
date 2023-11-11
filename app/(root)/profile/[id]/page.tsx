@@ -74,7 +74,7 @@ async function Page({ params }: { params: { id: string } }) {
               {tab.value === "map" && (
                 <div>
                   <MapWindow userId={userInfo.id} name={userInfo.name} username={userInfo.username}/>
-                  <UpdateUserPosition userId={userInfo.id}/>
+                  {/* <UpdateUserPosition userId={userInfo.id}/> */}
                 </div>
               )}
             </TabsContent>

@@ -10,27 +10,13 @@ const UpdateUserPosition = ({ userId }: { userId: string }) => {
       },
       userDecisionTimeout: 5000,
     });
-  // console.log(coords);
-  const update = async (
-    userId: string,
-    position: { lng: number; lat: number }
-  ) => {
-    await updatePosition(userId, position);
-    // const test = await fetchUsersPosition(userId);
-    // console.log("Test: ", test.map((user) => user.location.coordinates));
-  };
-  useEffect(() => {
-    if (coords) {
-      update(userId, { lng: coords.longitude, lat: coords.latitude });
-    }
-  }, [coords]);
 
   return !isGeolocationAvailable ? (
     <div>Your browser does not support Geolocation</div>
   ) : !isGeolocationEnabled ? (
     <div>Geolocation is not enabled</div>
   ) : coords ? (
-    <table className="">
+    <table className="text-light-3">
       <tbody>
         <tr>
           <td>latitude</td>
