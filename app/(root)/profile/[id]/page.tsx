@@ -1,3 +1,5 @@
+import UpdateUserPosition from "@/components/forms/UpdateUserPosition";
+import MapWindow from "@/components/interact/MapWindow";
 import ProfileHeader from "@/components/shared/ProfileHeader";
 import ThreadsTab from "@/components/shared/ThreadsTab";
 import { Tabs, TabsList, TabsContent, TabsTrigger } from "@/components/ui/tabs";
@@ -69,9 +71,10 @@ async function Page({ params }: { params: { id: string } }) {
                   Reply
                 </div>
               )}
-              {tab.value === "tagged" && (
-                <div className="text-light-1">
-                  Tagged
+              {tab.value === "map" && (
+                <div>
+                  <MapWindow userId={userInfo.id} name={userInfo.name} username={userInfo.username}/>
+                  {/* <UpdateUserPosition userId={userInfo.id}/> */}
                 </div>
               )}
             </TabsContent>

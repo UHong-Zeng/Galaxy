@@ -36,6 +36,10 @@ const nextConfig = {
         port: '',
         pathname: '/f/**', // 根據你的需求設置適當的路徑
       },
+      {
+        protocol: "https",
+        hostname: "tile.openstreetmap.org",
+      },
     ],
   },
 };
