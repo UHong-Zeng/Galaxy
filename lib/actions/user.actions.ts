@@ -314,7 +314,7 @@ export async function deleteLicense(userId: string, id: string) {
   }
 }
 
-export async function fetchUsersPosition(userId?: string) {
+export async function fetchUsersPosition() {
   connectToDB();
   try {
     return await User.find({
