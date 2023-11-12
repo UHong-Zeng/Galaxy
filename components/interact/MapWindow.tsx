@@ -58,9 +58,12 @@ const Location = ({userId, name, username }: MapWindowProps) => {
       await updatePosition(userId, pos);
 
       const result = await fetchUsersPosition();
+
+      console.log(result);
+
       const arr = result.map((user: any) => {
-        const lat = user.location.coordinates[1];
-        const lng = user.location.coordinates[0];
+        const lat = user.location[1];
+        const lng = user.location[0];
         const loc = new LatLng(lat, lng);
         return {
           "location": loc,

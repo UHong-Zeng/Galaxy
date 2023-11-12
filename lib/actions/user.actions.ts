@@ -250,11 +250,19 @@ export async function updatePosition(
 
 export async function fetchUsersPosition() {
   connectToDB();
-  try {
-    return await User.find({
+  try { 
+    const result = await User.find({
       location: { $ne: [null, undefined] },
     })
     .populate({ path: "location", select: "coordinates" });
+    const final = result.map((user: any) => {
+      return {
+        location: user.location.coordinates,
+        name: user.name,
+        username: user.username,
+      }
+    });
+    return final;
   } catch (error: any) {
     throw new Error(error.message);
   }
