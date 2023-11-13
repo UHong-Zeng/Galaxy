@@ -74,7 +74,7 @@ async function Page({ params }: { params: { id: string } }) {
               {tab.value === "tagged" && (
                 <div className="text-light-1">
                   <UpdateLocation userId={userInfo.id}/>
-                  <Map />
+                  <Map userId={userInfo.id}/>
                 </div>
               )}
             </TabsContent>

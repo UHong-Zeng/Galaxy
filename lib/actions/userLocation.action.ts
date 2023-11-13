@@ -23,3 +23,14 @@ export async function updateLocationToUser({
     throw new Error(error.message);
   }
 }
+
+export async function getLocationFromUsers(userId: string) {
+  connectToDB();
+  try {
+    const result = await UserLocation.find({ id: { $ne: userId } });
+
+    return result;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+}
