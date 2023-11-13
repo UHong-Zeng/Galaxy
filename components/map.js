@@ -33,6 +33,17 @@ const Map = ({userId}) => {
         trackUserLocation: true,
       })
     );
+    setTimeout(async () => {
+      const result = await getLocationFromUsers(userId);
+      console.log(result);
+      if (result) {
+        result.map((info) => {
+          new maplibregl.Marker({ color: "#0000FF" })
+            .setLngLat([info.longitude, info.latitude])
+            .addTo(map.current);
+        });
+      }
+    }, 500);
     new maplibregl.Marker({ color: "#FF0000" })
       .setLngLat([120.2388992, 22.986752])
       .addTo(map.current);
@@ -66,8 +77,10 @@ const Map = ({userId}) => {
   }, [API_KEY, lng, lat, zoom]);
 
   return (
-    <div className="map-wrap">
-      <div ref={mapContainer} className="map" />
+    <div>
+      <div className="map-wrap">
+        <div ref={mapContainer} className="map" />
+      </div>
     </div>
   );
 };

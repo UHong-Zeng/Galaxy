@@ -4,7 +4,7 @@ import { updateLocationToUser } from "@/lib/actions/userLocation.action";
 import React from "react";
 import { useGeolocated } from "react-geolocated";
 
-const UpdateLocation = ({userId}: {userId:string}) => {
+const UpdateLocation = ({ userId }: { userId: string }) => {
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
       positionOptions: {
@@ -14,22 +14,31 @@ const UpdateLocation = ({userId}: {userId:string}) => {
     });
 
   const handleOnClick = async () => {
-    if(coords){
+    if (coords) {
       await updateLocationToUser({
         userId: userId,
         lng: coords.longitude,
         lat: coords.latitude,
       });
     }
-  }
+  };
 
   return !isGeolocationAvailable ? (
     <div>Your browser does not support Geolocation</div>
   ) : !isGeolocationEnabled ? (
-    <div>Geolocation is not enabled</div>
+    <div>
+      Geolocation is not enabled...
+      <br />
+      Please reload your browser.
+    </div>
   ) : coords ? (
     <div>
-      <button onClick={handleOnClick}>Refresh</button>
+      <button
+        onClick={handleOnClick}
+        className="outline-2 outline-light-1 bg-light-3 text-light-2"
+      >
+        UpdateLocation
+      </button>
       <table>
         <tbody>
           <tr>
@@ -40,7 +49,7 @@ const UpdateLocation = ({userId}: {userId:string}) => {
             <td>longitude</td>
             <td>{coords.longitude}</td>
           </tr>
-          <tr>
+          {/* <tr>
             <td>altitude</td>
             <td>{coords.altitude}</td>
           </tr>
@@ -51,7 +60,7 @@ const UpdateLocation = ({userId}: {userId:string}) => {
           <tr>
             <td>speed</td>
             <td>{coords.speed}</td>
-          </tr>
+          </tr> */}
         </tbody>
       </table>
     </div>
