@@ -7,6 +7,7 @@ import { currentUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import Map from "../../../../components/map";
+import UpdateLocation from "@/components/forms/UpdateLocation";
 
 async function Page({ params }: { params: { id: string } }) {
   const user = await currentUser();
@@ -72,6 +73,7 @@ async function Page({ params }: { params: { id: string } }) {
               )}
               {tab.value === "tagged" && (
                 <div className="text-light-1">
+                  <UpdateLocation userId={userInfo.id}/>
                   <Map />
                 </div>
               )}

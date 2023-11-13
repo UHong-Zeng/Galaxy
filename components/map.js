@@ -35,14 +35,6 @@ const Map = () => {
     new maplibregl.Marker({ color: "#FF0000" })
       .setLngLat([139.7525, 35.6846])
       .addTo(map.current);
-
-    let geolocate = new maplibregl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      trackUserLocation: true,
-    });
-    console.log(geolocate);
   }, [API_KEY, lng, lat, zoom]);
 
   return (
