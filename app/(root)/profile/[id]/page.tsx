@@ -8,6 +8,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import Map from "../../../../components/map";
 import UpdateLocation from "@/components/forms/UpdateLocation";
+import GPSPrivacy from "@/components/forms/GPSPrivacy";
 
 async function Page({ params }: { params: { id: string } }) {
   const user = await currentUser();
@@ -67,14 +68,19 @@ async function Page({ params }: { params: { id: string } }) {
                 />
               )}
               {tab.value === "replies" && (
-                <div className="text-light-1">
-                  Reply
-                </div>
+                <div className="text-light-1">Reply</div>
               )}
               {tab.value === "tagged" && (
                 <div className="text-light-1">
-                  <UpdateLocation userId={userInfo.id}/>
-                  <Map userId={userInfo.id}/>
+                  <div className="flex flex-row">
+                    <div className="flex-1">
+                      <GPSPrivacy userId={userInfo.id}/>
+                    </div>
+                    <div className="flex-1">
+                      <UpdateLocation userId={userInfo.id} />
+                    </div>
+                  </div>
+                  <Map userId={userInfo.id} />
                 </div>
               )}
             </TabsContent>
