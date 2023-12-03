@@ -11,12 +11,22 @@ const userLocationSchema = new mongoose.Schema({
   },
   latitude: {
     type: Number,
+    required: true,
   },
   privacy: {
     type: Boolean,
     require: true,
     default : false,
   },
+  licenses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      require: true,
+      // type: String,
+      // required: true,
+    },
+  ],
 });
 
 const UserLocation =
