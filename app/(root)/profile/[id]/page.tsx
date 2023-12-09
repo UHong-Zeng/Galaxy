@@ -8,6 +8,8 @@ import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import Map from "../../../../components/map";
+import UpdateLocation from "@/components/forms/UpdateLocation";
 
 async function Page({ params }: { params: { id: string } }) {
   const user = await currentUser();
@@ -71,10 +73,17 @@ async function Page({ params }: { params: { id: string } }) {
                   Reply
                 </div>
               )}
+<<<<<<< HEAD
               {tab.value === "map" && (
                 <div>
                   <MapWindow userId={userInfo.id} name={userInfo.name} username={userInfo.username}/>
                   {/* <UpdateUserPosition userId={userInfo.id}/> */}
+=======
+              {tab.value === "tagged" && (
+                <div className="text-light-1">
+                  <UpdateLocation userId={userInfo.id}/>
+                  <Map userId={userInfo.id}/>
+>>>>>>> NewMap2
                 </div>
               )}
             </TabsContent>
