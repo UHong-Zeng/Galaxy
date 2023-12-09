@@ -68,7 +68,7 @@ async function Page({ params }: { params: { id: string } }) {
               )}
               {tab.value === "privacy" && (
                 <div className="text-light-1">
-                  <Privacy />
+                  <Privacy userId={user.id}/>
                 </div>
               )}
               {tab.value === "map" && (

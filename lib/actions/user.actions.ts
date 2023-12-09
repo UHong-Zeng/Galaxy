@@ -241,3 +241,28 @@ export async function updatePosition(userId: string, lng: number, lat: number) {
     );
   } catch (error: any) {}
 }
+
+export async function togglePrivacy(userId: string, isPrivate: boolean) {
+  try {
+    console.log(!isPrivate)
+    await connectToDB();
+    await User.findOneAndUpdate(
+      { id: userId },
+      { $set: { privacy: !isPrivate } }
+    );
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+}
+
+export async function getPrivacy(userId: string) {
+  try {
+    
+    await connectToDB();
+    return await User.findOne(
+      { id: userId },
+    ).select("privacy");
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+}
