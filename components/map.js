@@ -8,8 +8,8 @@ import "./map.css";
 const Map = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng] = useState(139.753);
-  const [lat] = useState(35.6844);
+  const [lng] = useState(120.2388992);
+  const [lat] = useState(22.986752);
   const [zoom] = useState(14);
   const [API_KEY] = useState("RqBiuK3vwqHCAXRC99jE");
 
@@ -33,7 +33,7 @@ const Map = () => {
       })
     );
     new maplibregl.Marker({ color: "#FF0000" })
-      .setLngLat([139.7525, 35.6846])
+      .setLngLat([120.2388992, 22.986752])
       .addTo(map.current);
 
     let geolocate = new maplibregl.GeolocateControl({
@@ -42,7 +42,22 @@ const Map = () => {
       },
       trackUserLocation: true,
     });
-    console.log(geolocate);
+
+    
+    // get Currency
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 10000,
+    };
+    const successCallback = (position) => {
+      console.log(position);
+    };
+    
+    const errorCallback = (error) => {
+      console.log(error);
+    };
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options);
+    const watchDog = navigator.geolocation.watchPosition(successCallback, errorCallback);
   }, [API_KEY, lng, lat, zoom]);
 
   return (
