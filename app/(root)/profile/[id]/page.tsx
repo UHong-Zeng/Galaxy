@@ -74,7 +74,7 @@ async function Page({ params }: { params: { id: string } }) {
                 <div className="text-light-1">
                   <div className="flex flex-row">
                     <div className="flex-1">
-                      <GPSPrivacy userId={userInfo.id}/>
+                      {/* <GPSPrivacy userId={userInfo.id}/> */}
                     </div>
                     <div className="flex-1">
                       <UpdateLocation userId={userInfo.id} />
