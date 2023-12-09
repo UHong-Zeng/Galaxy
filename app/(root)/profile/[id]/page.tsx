@@ -70,7 +70,7 @@ async function Page({ params }: { params: { id: string } }) {
               {tab.value === "replies" && (
                 <div className="text-light-1">Reply</div>
               )}
-              {tab.value === "tagged" && (
+              {(tab.value === "tagged" && params.id === user.id) && (
                 <div className="text-light-1">
                   <div className="flex flex-row">
                     <div className="flex-1">
