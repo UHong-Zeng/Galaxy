@@ -95,23 +95,10 @@ export async function fetchUsersLocationLicense(userId: string) {
   await connectToDB();
   try {
     const users = await UserLocation.findOne({ id: userId })
-    // .populate(
-    //   {
-    //     path: "licenses",
-    //     model: "User",
-    //     select: "_id username name",
-    //   }
-    // )
 
     const names = await Promise.all(users.licenses.map(async (result: any) => {
       return await User.findById(result).select("name");
     }));
-    
-    // console.log(users.licenses);
-    // console.log("Type: ", typeof users.licenses)
-    console.log("Names: ", names);
-    console.log("Type: ", typeof names);
-    // console.log("Name: ", names)
 
     return names;
   } catch (error: any) {
