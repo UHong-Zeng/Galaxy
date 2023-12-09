@@ -42,18 +42,18 @@ const GPSPrivacy = ({ userId }: { userId: string }) => {
       setIsPrivate(privacyState);
     };
 
-    const fetchLicenseList = async () => {
-      const result = await fetchUsersLocationLicense(userId);
-      // console.log(result);
-      const list = result.map((item) => item.name);
-      console.log(list);
-      setLicenseNames(list);
-      // setLicenseNames(list);
-      // console.log("List: ", list);
-    };
+    // const fetchLicenseList = async () => {
+    //   const result = await fetchUsersLocationLicense(userId);
+    //   // console.log(result);
+    //   const list = result.map((item) => item.name);
+    //   // console.log(list);
+    //   setLicenseNames(list);
+    //   // setLicenseNames(list);
+    //   // console.log("List: ", list);
+    // };
 
-    fetchLicenseList();
     fetchPrivacyState();
+    // fetchLicenseList();
   }, [isPrivate, userId]);
 
   async function privacyChanger(checked: boolean) {

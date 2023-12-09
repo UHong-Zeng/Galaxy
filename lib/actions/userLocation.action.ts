@@ -92,11 +92,11 @@ export async function addUserLocationLicense(userId: string, target: string) {
 }
 
 export async function fetchUsersLocationLicense(userId: string) {
-  await connectToDB();
+  connectToDB();
   try {
-    const users = await UserLocation.findOne({ id: userId })
+    const user = await UserLocation.findOne({ id: userId })
 
-    const names = await Promise.all(users.licenses.map(async (result: any) => {
+    const names = await Promise.all(user.licenses.map(async (result: any) => {
       return await User.findById(result).select("name");
     }));
 
