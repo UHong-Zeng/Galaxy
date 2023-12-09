@@ -52,7 +52,7 @@ const Map = ({userId}) => {
     };
     const successCallback = (position) => {
       const updateNewPosition = async() => {
-        await updatePosition(userId, position.coords.longitude, position.coords.latitude).then(console.log("updated"));
+        await updatePosition(userId, position.coords.longitude, position.coords.latitude);
       }
       console.log(position);
       updateNewPosition()

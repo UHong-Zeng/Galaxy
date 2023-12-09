@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Switch } from "../ui/switch";
 import { getPrivacy, togglePrivacy } from "@/lib/actions/user.actions";
+import Whitelist from "./Whitelist";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -42,7 +43,7 @@ const Privacy = ({ userId }: { userId: string }) => {
 
   function changePrivacy() {
     const func = async() => {
-      await togglePrivacy(userId, isPrivate).then(() => console.log("setPrivacy"));
+      await togglePrivacy(userId, isPrivate);
     }
     func();
     setIsPrivate(() => !isPrivate);
@@ -57,10 +58,9 @@ const Privacy = ({ userId }: { userId: string }) => {
   }, [isPrivate]);
 
   return (
-    <div>
+    <div className="flex flex-row justify-start">
       {/* Form */}
-
-      <div>
+      <div className="">
         <h1 className="text-heading4-medium mb-2">
           Change your Privacy for map.
         </h1>
@@ -97,6 +97,11 @@ const Privacy = ({ userId }: { userId: string }) => {
             </form>
           </Form>
         )}
+      </div>
+      <div className="border border-dark-4 mx-10"/>
+      {/* WhiteList */}
+      <div className="mt-3">
+        <Whitelist />
       </div>
     </div>
   );
