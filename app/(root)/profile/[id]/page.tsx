@@ -7,6 +7,7 @@ import { currentUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import Map from "../../../../components/map";
+import Privacy from "@/components/forms/Privacy";
 
 async function Page({ params }: { params: { id: string } }) {
   const user = await currentUser();
@@ -45,7 +46,7 @@ async function Page({ params }: { params: { id: string } }) {
                 />
                 <p className="max-sm:hidden">{tab.label}</p>
 
-                {tab.label === "Threads" && (
+                {tab.label === "Posts" && (
                   <p
                     className="
                     ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2"
@@ -58,21 +59,21 @@ async function Page({ params }: { params: { id: string } }) {
           </TabsList>
           {profileTabs.map((tab) => (
             <TabsContent key={`content-${tab.label}`} value={tab.value}>
-              {tab.value === "threads" && (
+              {tab.value === "posts" && (
                 <ThreadsTab
                   currentUserId={user.id}
                   accountId={userInfo.id}
                   accountType="User"
                 />
               )}
-              {tab.value === "replies" && (
+              {tab.value === "privacy" && (
                 <div className="text-light-1">
-                  Reply
+                  <Privacy />
                 </div>
               )}
-              {tab.value === "tagged" && (
+              {tab.value === "map" && (
                 <div className="text-light-1">
-                  <Map />
+                  <Map userId={user.id}/>
                 </div>
               )}
             </TabsContent>

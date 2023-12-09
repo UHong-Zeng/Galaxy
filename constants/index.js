@@ -32,9 +32,9 @@ export const sidebarLinks = [
 ];
 
 export const profileTabs = [
-  { value: "threads", label: "Threads", icon: "/assets/reply.svg" },
-  { value: "replies", label: "Replies", icon: "/assets/members.svg" },
-  { value: "tagged", label: "Tagged", icon: "/assets/tag.svg" },
+  { value: "posts", label: "Posts", icon: "/assets/reply.svg" },
+  { value: "privacy", label: "Privacy", icon: "/assets/members.svg" },
+  { value: "map", label: "Map", icon: "/assets/tag.svg" },
 ];
 
 export const communityTabs = [

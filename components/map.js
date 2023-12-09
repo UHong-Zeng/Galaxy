@@ -4,8 +4,9 @@ import React, { useRef, useEffect, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./map.css";
+import { updatePosition } from "@/lib/actions/user.actions";
 
-const Map = () => {
+const Map = ({userId}) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng] = useState(120.2388992);
@@ -43,14 +44,18 @@ const Map = () => {
       trackUserLocation: true,
     });
 
-    
+
     // get Currency
     const options = {
       enableHighAccuracy: true,
       timeout: 10000,
     };
     const successCallback = (position) => {
+      const updateNewPosition = async() => {
+        await updatePosition(userId, position.coords.longitude, position.coords.latitude).then(console.log("updated"));
+      }
       console.log(position);
+      updateNewPosition()
     };
     
     const errorCallback = (error) => {

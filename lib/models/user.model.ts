@@ -24,7 +24,10 @@ const userSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Thread",
     }
-  ]
+  ],
+  privacy: { type: Boolean, required: true, default: false},
+  lng: { type: Number, required: true, default: 0 },
+  lat: { type: Number, required: true, default: 0 },
 });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);

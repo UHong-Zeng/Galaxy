@@ -20,7 +20,7 @@ const ThreadsTab = async ({ currentUserId, accountId, accountType}: Props) => {
 
   if(!result) redirect('/');
 
-  console.log(result.threads[0]);
+  // console.log(result.threads[0]);
 
   return (
     <section className="mt-9 flex flex-col gap-10">
