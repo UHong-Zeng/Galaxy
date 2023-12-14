@@ -18,8 +18,14 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Switch } from "../ui/switch";
-import { getPrivacy, togglePrivacy } from "@/lib/actions/user.actions";
+import {
+  addUserToLicense,
+  fetchLicense,
+  getPrivacy,
+  togglePrivacy,
+} from "@/lib/actions/user.actions";
 import Whitelist from "./Whitelist";
+import Alertbar from "../shared/Alertbar";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -29,6 +35,8 @@ const formSchema = z.object({
 
 const Privacy = ({ userId }: { userId: string }) => {
   const [isPrivate, setIsPrivate] = useState(false);
+  const [alert, setAlert] = useState(false);
+  const [whiteUsers, setWhiteUsers] = useState([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,12 +47,24 @@ const Privacy = ({ userId }: { userId: string }) => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+
+    const pushWhitelist = async () => {
+      const result = await addUserToLicense(userId, values.username);
+      if (result === null) {
+        console.log("User isn't found or have added!");
+        setAlert(true);
+      }else{
+        setAlert(false);
+      }
+    };
+
+    pushWhitelist();
   }
 
   function changePrivacy() {
-    const func = async() => {
+    const func = async () => {
       await togglePrivacy(userId, isPrivate);
-    }
+    };
     func();
     setIsPrivate(() => !isPrivate);
   }
@@ -53,8 +73,14 @@ const Privacy = ({ userId }: { userId: string }) => {
     const getState = async () => {
       const state = await getPrivacy(userId);
       setIsPrivate(() => state.privacy);
+    };
+    const getList = async () => {
+      const list = await fetchLicense(userId);
+      console.log(list);
+      setWhiteUsers(list);
     }
     getState();
+    getList();
   }, [isPrivate]);
 
   return (
@@ -76,7 +102,7 @@ const Privacy = ({ userId }: { userId: string }) => {
         </div>
         {isPrivate && (
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
               <FormField
                 control={form.control}
                 name="username"
@@ -97,11 +123,12 @@ const Privacy = ({ userId }: { userId: string }) => {
             </form>
           </Form>
         )}
+        {alert && <Alertbar text="User isn't found or have added!" />}
       </div>
-      <div className="border border-dark-4 mx-10"/>
+      <div className="border border-dark-4 mx-10" />
       {/* WhiteList */}
       <div className="mt-3">
-        <Whitelist />
+        <Whitelist users={whiteUsers}/>
       </div>
     </div>
   );

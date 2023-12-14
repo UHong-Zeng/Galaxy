@@ -244,7 +244,7 @@ export async function updatePosition(userId: string, lng: number, lat: number) {
 
 export async function togglePrivacy(userId: string, isPrivate: boolean) {
   try {
-    console.log(!isPrivate)
+    console.log(!isPrivate);
     await connectToDB();
     await User.findOneAndUpdate(
       { id: userId },
@@ -257,12 +257,41 @@ export async function togglePrivacy(userId: string, isPrivate: boolean) {
 
 export async function getPrivacy(userId: string) {
   try {
-    
     await connectToDB();
-    return await User.findOne(
-      { id: userId },
-    ).select("privacy");
+    return await User.findOne({ id: userId }).select("privacy");
   } catch (error: any) {
     throw new Error(error.message);
   }
+}
+
+export async function addUserToLicense(userId: string, target: string) {
+  try {
+    await connectToDB();
+
+    const targetUser = await User.findOne({
+      $or: [{ name: target }, { username: target }],
+    });
+
+    if (targetUser === null) return null;
+
+    const result = await User.findOneAndUpdate(
+      { id: userId },
+      { $addToSet: { mapLicenses: targetUser._id } }
+      // { new: true }
+    );
+    return result.mapLicenses;
+  } catch (error: any) {}
+}
+
+export async function fetchLicense(userId: string) {
+  try {
+    await connectToDB();
+    const targets = await User.findOne({ id: userId }).select("mapLicenses");
+
+    const users = await User.find({
+      _id: { $in: targets.mapLicenses },
+    }).select("name username image _id");
+
+    return users;
+  } catch (error: any) {}
 }

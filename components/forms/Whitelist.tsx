@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { ChevronsUpDown, Plus, X } from "lucide-react"
+import { useState } from "react";
+import { ChevronsUpDown, Plus, X } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from "@/components/ui/collapsible";
 
-const Whitelist = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  
+const Whitelist = ({ users }: { users: any[] }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  console.log(users);
 
   return (
     <Collapsible
@@ -21,9 +21,7 @@ const Whitelist = () => {
       className="w-[350px] space-y-2"
     >
       <div className="flex items-center justify-between space-x-4 px-4">
-        <h4 className="text-heading4-medium font-semibold">
-          Whitelist
-        </h4>
+        <h4 className="text-heading4-medium font-semibold">Whitelist</h4>
         <CollapsibleTrigger asChild>
           <Button variant="ghost" size="sm" className="w-9 p-0">
             <ChevronsUpDown className="h-4 w-4" />
@@ -32,21 +30,23 @@ const Whitelist = () => {
         </CollapsibleTrigger>
       </div>
 
-      <div className="rounded-md border px-4 py-3 font-mono text-sm">
-        @radix-ui/primitives
-      </div>
-
-      <CollapsibleContent className="space-y-2">
+      {users && users.length > 0 && (
         <div className="rounded-md border px-4 py-3 font-mono text-sm">
-          @radix-ui/colors
+          {users[0].name}
         </div>
-        <div className="rounded-md border px-4 py-3 font-mono text-sm">
-          @stitches/react
-        </div>
-      </CollapsibleContent>
+      )}
 
+      {users.length > 1 && (
+        <CollapsibleContent className="space-y-2">
+          {users.slice(1).map((user) => (
+            <div className="rounded-md border px-4 py-3 font-mono text-sm">
+              {user.name}
+            </div>
+          ))}
+        </CollapsibleContent>
+      )}
     </Collapsible>
-  )
-}
+  );
+};
 
 export default Whitelist;
