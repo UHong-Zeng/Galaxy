@@ -203,6 +203,11 @@ export async function toggleLike(
   postId: string,
   isLike: boolean
 ) {
+export async function toggleLike(
+  userId: string,
+  postId: string,
+  isLike: boolean
+) {
   try {
     let currentLike = isLike;
     const user = await User.findOne({ id: userId });
@@ -210,8 +215,12 @@ export async function toggleLike(
     if (currentLike) {
       await User.findOneAndUpdate({ id: userId }, { $pull: { likes: postId } });
       await Thread.findByIdAndUpdate(postId, { $pull: { likedBy: user._id } });
+      await User.findOneAndUpdate({ id: userId }, { $pull: { likes: postId } });
+      await Thread.findByIdAndUpdate(postId, { $pull: { likedBy: user._id } });
       currentLike = false;
     } else {
+      await User.findOneAndUpdate({ id: userId }, { $push: { likes: postId } });
+      await Thread.findByIdAndUpdate(postId, { $push: { likedBy: user._id } });
       await User.findOneAndUpdate({ id: userId }, { $push: { likes: postId } });
       await Thread.findByIdAndUpdate(postId, { $push: { likedBy: user._id } });
       currentLike = true;
@@ -333,3 +342,4 @@ export async function fetchUsersPosition() {
     throw new Error(error.message);
   }
 }
+
