@@ -295,3 +295,21 @@ export async function fetchLicense(userId: string) {
     return users;
   } catch (error: any) {}
 }
+
+export async function deleteLicense(userId: string, id: string) {
+  try {
+    await connectToDB();
+    const result = await User.findOne({ id: userId });
+    console.log(result.mapLicenses);
+    await User.findOneAndUpdate(
+      {
+        id: userId,
+      },
+      {
+        $pull: { mapLicenses: id },
+      }
+    );
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+}

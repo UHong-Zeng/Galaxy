@@ -9,10 +9,13 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import Image from "next/image";
+import { deleteLicense } from "@/lib/actions/user.actions";
+import { typeOf } from "maplibre-gl";
+import { currentUser } from "@clerk/nextjs";
 
-const Whitelist = ({ users }: { users: any[] }) => {
+const Whitelist = ({ userId, users }: { userId: string; users: any[] }) => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(users);
 
   return (
     <Collapsible
@@ -31,16 +34,43 @@ const Whitelist = ({ users }: { users: any[] }) => {
       </div>
 
       {users && users.length > 0 && (
-        <div className="rounded-md border px-4 py-3 font-mono text-sm">
+        <div className="rounded-md border px-4 py-3 font-mono text-sm flex flex-row justify-between">
           {users[0].name}
+          <Image
+            src="/assets/delete.svg"
+            alt="delete"
+            width={20}
+            height={20}
+            className="cursor-pointer object-contain"
+            onClick={async () => {
+              await deleteLicense(userId, users[0]._id.toString()).then(() => {
+                window.location.reload();
+              });
+            }}
+          />
         </div>
       )}
 
       {users.length > 1 && (
         <CollapsibleContent className="space-y-2">
           {users.slice(1).map((user) => (
-            <div className="rounded-md border px-4 py-3 font-mono text-sm">
+            <div
+              className="rounded-md border px-4 py-3 font-mono text-sm flex flex-row justify-between"
+              key={user.name}
+            >
               {user.name}
+              <Image
+                src="/assets/delete.svg"
+                alt="delete"
+                width={20}
+                height={20}
+                className="cursor-pointer object-contain"
+                onClick={async () => {
+                  await deleteLicense(userId, user._id.toString()).then(() => {
+                    window.location.reload();
+                  });
+                }}
+              />
             </div>
           ))}
         </CollapsibleContent>

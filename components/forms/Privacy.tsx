@@ -76,7 +76,6 @@ const Privacy = ({ userId }: { userId: string }) => {
     };
     const getList = async () => {
       const list = await fetchLicense(userId);
-      console.log(list);
       setWhiteUsers(list);
     }
     getState();
@@ -128,7 +127,7 @@ const Privacy = ({ userId }: { userId: string }) => {
       <div className="border border-dark-4 mx-10" />
       {/* WhiteList */}
       <div className="mt-3">
-        <Whitelist users={whiteUsers}/>
+        <Whitelist userId={userId} users={whiteUsers}/>
       </div>
     </div>
   );
